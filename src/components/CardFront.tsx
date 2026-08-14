@@ -5,8 +5,8 @@ import { NfcChip } from './NfcChip';
 export const CardFront: React.FC = () => {
   return (
     <div className="w-full h-full flex flex-col justify-between select-none text-white">
-      
-      {/* Top Status Bar - NO translateZ */}
+
+      {/* TOP: Status & NFC Chip — flat 2D */}
       <div className="flex items-start justify-between w-full">
         <div>
           <div className="flex items-center gap-2 font-mono text-[10px] sm:text-[11px] text-white/80 tracking-wider">
@@ -20,44 +20,79 @@ export const CardFront: React.FC = () => {
         <NfcChip className="w-8 h-6 sm:w-9 sm:h-7 flex-shrink-0" />
       </div>
 
-      {/* Center Identity - NO translateZ */}
-      <div className="text-center flex flex-col items-center justify-center flex-1 py-4">
+      {/* CENTER: Avatar + Identity — flat 2D, no translateZ */}
+      <div className="flex flex-col items-center justify-center flex-1 py-3 gap-0">
+
+        {/* Profile Avatar */}
+        <div className="relative mb-3">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+            <img
+              src={TRAINER_DATA.avatarUrl}
+              alt={TRAINER_DATA.name}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                // Fallback to initials if image fails
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+          </div>
+          {/* Certified badge dot */}
+          <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[#0d1117] flex items-center justify-center">
+            <svg viewBox="0 0 12 12" className="w-2.5 h-2.5 text-white fill-current">
+              <path d="M10 3L5 8.5 2 5.5" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        {/* Name */}
         <h1
-          className="font-serif italic font-normal tracking-tight text-white leading-none drop-shadow-[0_4px_24px_rgba(255,255,255,0.25)] mb-3"
+          className="font-normal tracking-tight text-white leading-none drop-shadow-[0_4px_24px_rgba(255,255,255,0.25)] mb-2 text-center"
           style={{
             fontFamily: "'Playfair Display', Georgia, serif",
-            fontSize: 'clamp(2rem, 8vw, 2.8rem)',
+            fontSize: 'clamp(1.75rem, 7vw, 2.4rem)',
+            fontStyle: 'italic',
           }}
         >
           {TRAINER_DATA.name}
         </h1>
 
-        <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[9px] sm:text-[10px] tracking-widest uppercase font-semibold mb-4 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+        {/* CPDT-KA Badge Pill */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono tracking-widest uppercase font-semibold mb-3 shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+          style={{ fontSize: 'clamp(0.6rem, 2vw, 0.7rem)' }}>
+          <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
           [ CPDT-KA CERTIFIED TRAINER ]
         </div>
 
-        <div className="flex flex-col items-center gap-1.5 w-full px-2">
-          <div className="font-mono text-[10px] sm:text-[11px] tracking-wider text-white/90 uppercase leading-snug text-center">
+        {/* Specialties */}
+        <div className="flex flex-col items-center gap-1 w-full px-1">
+          <div className="font-mono tracking-wider text-white/90 uppercase leading-snug text-center"
+            style={{ fontSize: 'clamp(0.62rem, 2.2vw, 0.72rem)' }}>
             Canine Behavior &amp; Aggression Specialist
           </div>
-          <div className="font-mono text-[9.5px] sm:text-[10.5px] tracking-wider text-white/80 uppercase leading-snug text-center">
+          <div className="font-mono tracking-wider text-white/70 uppercase leading-snug text-center"
+            style={{ fontSize: 'clamp(0.58rem, 2vw, 0.67rem)' }}>
             Executive Protection &amp; Advanced K9 Command
           </div>
-          <div className="font-mono text-[9px] sm:text-[10px] tracking-widest text-sky-400/90 uppercase mt-1">
+
+          {/* Divider */}
+          <div className="w-16 h-px bg-white/15 my-1.5" />
+
+          <div className="font-mono tracking-widest text-sky-400/90 uppercase"
+            style={{ fontSize: 'clamp(0.58rem, 1.8vw, 0.65rem)' }}>
             Partner @ The Bark University
           </div>
           <div
-            className="text-[11px] sm:text-xs text-slate-400 tracking-wide mt-1 italic"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            className="text-slate-400 tracking-wide mt-0.5 italic text-center"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(0.65rem, 2vw, 0.75rem)' }}
           >
             "{TRAINER_DATA.motto}"
           </div>
         </div>
       </div>
 
-      {/* Bottom Barcode - NO translateZ */}
-      <div className="flex flex-col items-center gap-1.5">
-        <svg className="w-3/4 h-5 text-white/30" viewBox="0 0 200 30" preserveAspectRatio="none">
+      {/* BOTTOM: Barcode + Tap hint — flat 2D */}
+      <div className="flex flex-col items-center gap-1">
+        <svg className="w-3/4 h-5 text-white/25" viewBox="0 0 200 30" preserveAspectRatio="none">
           <rect x="0"   y="0" width="4"  height="30" fill="currentColor" />
           <rect x="8"   y="0" width="2"  height="30" fill="currentColor" />
           <rect x="14"  y="0" width="6"  height="30" fill="currentColor" />
@@ -83,10 +118,12 @@ export const CardFront: React.FC = () => {
           <rect x="190" y="0" width="2"  height="30" fill="currentColor" />
           <rect x="196" y="0" width="4"  height="30" fill="currentColor" />
         </svg>
-        <div className="font-mono text-[8px] sm:text-[9px] tracking-widest text-white/40 uppercase">
+        <div className="font-mono tracking-widest text-white/35 uppercase"
+          style={{ fontSize: 'clamp(0.5rem, 1.6vw, 0.6rem)' }}>
           [ TAP CARD TO FLIP // ACTIONS ]
         </div>
       </div>
+
     </div>
   );
 };
