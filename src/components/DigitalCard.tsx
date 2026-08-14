@@ -89,8 +89,14 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
           style={{ transformStyle: 'preserve-3d' }}
           className="w-full h-full relative"
         >
-          {/* FRONT FACE (Click to Flip) */}
-          <div className="card-face card-front">
+          {/* FRONT FACE (Active ONLY when NOT flipped) */}
+          <div 
+            style={{
+              pointerEvents: isFlipped ? 'none' : 'auto',
+              visibility: isFlipped ? 'hidden' : 'visible',
+            }}
+            className="card-face card-front"
+          >
             {/* Holographic Refraction Layer */}
             <motion.div
               style={{
@@ -107,13 +113,21 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
               }}
             />
             <CardFront onFlip={() => {
-              playCardFlipSound();
-              onToggleFlip();
+              if (!isFlipped) {
+                playCardFlipSound();
+                onToggleFlip();
+              }
             }} />
           </div>
 
-          {/* BACK FACE */}
-          <div className="card-face card-back">
+          {/* BACK FACE (Active ONLY when flipped) */}
+          <div 
+            style={{
+              pointerEvents: isFlipped ? 'auto' : 'none',
+              visibility: isFlipped ? 'visible' : 'hidden',
+            }}
+            className="card-face card-back"
+          >
             {/* Holographic Refraction Layer */}
             <motion.div
               style={{
