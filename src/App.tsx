@@ -29,55 +29,60 @@ export function App() {
       <div className="ambient-orb orb-secondary" />
       <div className="ambient-orb orb-tertiary" />
 
-      {/* Top Left Subtle Escape / Status Pill */}
-      <div className="absolute top-4 sm:top-6 left-4 sm:left-8 z-30 font-mono text-[9px] sm:text-[11px] tracking-widest text-emerald-400/90 uppercase px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-md">
-        <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>[ K9 EXECUTIVE PASS ]</span>
+      {/* ROW 1: TOP SYSTEM BAR (Clean Non-Overlapping Header) */}
+      <header className="w-full flex items-center justify-between z-30 shrink-0 max-w-lg mx-auto">
+        {/* Left Status Pill */}
+        <div className="font-mono text-[9px] sm:text-[10px] tracking-widest text-emerald-400/90 uppercase px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>[ K9 EXECUTIVE PASS ]</span>
+          </div>
         </div>
-      </div>
 
-      {/* Top Right Quick Actions */}
-      <div className="absolute top-4 sm:top-6 right-4 sm:right-8 z-30 flex items-center gap-2">
-        <button
-          type="button"
-          onClick={() => {
-            playButtonTapSound();
-            setQrOpen(true);
-          }}
-          className="font-mono text-[9px] sm:text-[11px] tracking-wider text-white/80 hover:text-white uppercase px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all active:scale-95"
-        >
-          [ QR CODE ]
-        </button>
+        {/* Right Quick Actions */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setTimeout(() => playButtonTapSound(), 0);
+              setQrOpen(true);
+            }}
+            className="font-mono text-[9px] sm:text-[10px] tracking-wider text-white/80 hover:text-white uppercase px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
+          >
+            [ QR CODE ]
+          </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            playButtonTapSound();
-            setShareOpen(true);
-          }}
-          className="font-mono text-[9px] sm:text-[11px] tracking-wider text-white/80 hover:text-white uppercase px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all active:scale-95"
-        >
-          [ SHARE ]
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={() => {
+              setTimeout(() => playButtonTapSound(), 0);
+              setShareOpen(true);
+            }}
+            className="font-mono text-[9px] sm:text-[10px] tracking-wider text-white/80 hover:text-white uppercase px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
+          >
+            [ SHARE ]
+          </button>
+        </div>
+      </header>
 
-      {/* 3D HOLOGRAPHIC CARD (100% Locked Viewport Center) */}
-      <DigitalCard
-        isFlipped={isFlipped}
-        onToggleFlip={handleToggleFlip}
-        onOpenBooking={() => setBookingOpen(true)}
-        onOpenWallet={() => setWalletOpen(true)}
-      />
+      {/* ROW 2: CENTERED 3D HOLOGRAPHIC CARD */}
+      <main className="w-full flex items-center justify-center my-auto relative z-10">
+        <DigitalCard
+          isFlipped={isFlipped}
+          onToggleFlip={handleToggleFlip}
+          onOpenBooking={() => setBookingOpen(true)}
+          onOpenWallet={() => setWalletOpen(true)}
+        />
+      </main>
 
-      {/* FLOATING FROSTED GLASS BOTTOM NAVIGATION BAR */}
-      <div className="fixed bottom-3 sm:bottom-6 left-0 w-full flex justify-center pointer-events-none z-40 px-3">
+      {/* ROW 3: FLOATING FROSTED GLASS BOTTOM DOCK */}
+      <footer className="w-full flex justify-center z-30 shrink-0 pb-1">
         <nav className="mobile-floating-nav">
           <ul className="mobile-nav-ul">
             <li>
               <a
                 href={TRAINER_DATA.contact.telUrl}
-                onClick={() => playButtonTapSound()}
+                onClick={() => setTimeout(() => playButtonTapSound(), 0)}
                 className="mobile-nav-link hover:text-white"
               >
                 CALL DIRECT
@@ -88,7 +93,7 @@ export function App() {
                 href={TRAINER_DATA.contact.whatsappDirectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => playButtonTapSound()}
+                onClick={() => setTimeout(() => playButtonTapSound(), 0)}
                 className="mobile-nav-link text-emerald-400 hover:text-emerald-300"
               >
                 WHATSAPP
@@ -99,7 +104,7 @@ export function App() {
                 href={TRAINER_DATA.contact.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => playButtonTapSound()}
+                onClick={() => setTimeout(() => playButtonTapSound(), 0)}
                 className="mobile-nav-link hover:text-white"
               >
                 INSTAGRAM
@@ -110,17 +115,17 @@ export function App() {
                 href={TRAINER_DATA.partnership.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => playButtonTapSound()}
+                onClick={() => setTimeout(() => playButtonTapSound(), 0)}
                 className="mobile-nav-link hover:text-white"
               >
                 THE BARK UNIV
               </a>
             </li>
-            <li className="hidden sm:inline-block">
+            <li>
               <button
                 type="button"
                 onClick={handleToggleFlip}
-                className="mobile-nav-link text-slate-300 hover:text-white flex items-center gap-1.5"
+                className="mobile-nav-link text-slate-300 hover:text-white flex items-center gap-1 cursor-pointer"
               >
                 <span>FLIP CARD</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#22c55e]" />
@@ -128,7 +133,7 @@ export function App() {
             </li>
           </ul>
         </nav>
-      </div>
+      </footer>
 
       {/* MODALS */}
       <ConsultationModal

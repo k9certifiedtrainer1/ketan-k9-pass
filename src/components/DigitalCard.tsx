@@ -20,7 +20,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Motion Values for 3D Tilt
+  // Motion Values for 3D Parallax Tilt
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -31,7 +31,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
   const glareX = useSpring(useTransform(x, [-0.5, 0.5], [0, 100]), springConfig);
   const glareY = useSpring(useTransform(y, [-0.5, 0.5], [0, 100]), springConfig);
 
-  // Desktop Mouse Movement (Parallax Tilt)
+  // Desktop Mouse Tilt ONLY (Never intercepts mobile touchscreen taps)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -48,7 +48,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     y.set(0);
   };
 
-  // Mobile Hardware Gyroscope Tilt
+  // Mobile Hardware Gyroscope (Smooth Parallax Tilt without Touch Drag Conflicts)
   useEffect(() => {
     const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
       if (e.gamma !== null && e.beta !== null) {
@@ -69,10 +69,9 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     };
   }, [x, y]);
 
-  // Exact Card Flip Handler from miteshshah.xyz/card
+  // Card Flip Guard: ONLY flips when clicking outside interactive buttons and links
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    // If the click/tap is on an anchor link or button, DO NOT FLIP (let the link/action fire natively)
     if (
       target.closest('a') || 
       target.closest('button') || 
@@ -108,8 +107,13 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
           style={{ transformStyle: 'preserve-3d' }}
           className="w-full h-full relative"
         >
-          {/* FRONT FACE */}
-          <div className="card-face card-front">
+          {/* FRONT FACE (Disabled when flipped) */}
+          <div 
+            style={{
+              pointerEvents: isFlipped ? 'none' : 'auto',
+            }}
+            className="card-face card-front"
+          >
             {/* Holographic Refraction Layer */}
             <motion.div
               style={{
@@ -128,8 +132,13 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
             <CardFront />
           </div>
 
-          {/* BACK FACE */}
-          <div className="card-face card-back">
+          {/* BACK FACE (Active when flipped) */}
+          <div 
+            style={{
+              pointerEvents: isFlipped ? 'auto' : 'none',
+            }}
+            className="card-face card-back"
+          >
             {/* Holographic Refraction Layer */}
             <motion.div
               style={{
@@ -147,6 +156,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
               }}
             />
             <CardBack
+              onFlip={onToggleFlip}
               onOpenBooking={onOpenBooking}
               onOpenWallet={onOpenWallet}
             />
