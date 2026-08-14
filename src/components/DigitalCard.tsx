@@ -20,7 +20,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Mouse Motion Values for 3D Tilt
+  // Motion Values for 3D Tilt
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -31,7 +31,8 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
   const glareX = useSpring(useTransform(x, [-0.5, 0.5], [0, 100]), springConfig);
   const glareY = useSpring(useTransform(y, [-0.5, 0.5], [0, 100]), springConfig);
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+  // Desktop Mouse Tilt ONLY (Never intercepts touchscreen gestures)
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const normalizedX = (e.clientX - rect.left) / rect.width - 0.5;
@@ -41,13 +42,13 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     y.set(normalizedY);
   };
 
-  const handlePointerLeave = () => {
+  const handleMouseLeave = () => {
     setIsHovered(false);
     x.set(0);
     y.set(0);
   };
 
-  // Device orientation / gyroscope for mobile
+  // Mobile Hardware Gyroscope (Smooth Parallax without Touch Interference)
   useEffect(() => {
     const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
       if (e.gamma !== null && e.beta !== null) {
@@ -72,9 +73,9 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     <div className="card-wrapper">
       <motion.div
         ref={cardRef}
-        onPointerEnter={() => setIsHovered(true)}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={handlePointerLeave}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
         style={{
           rotateX: rotateXSpring,
           rotateY: rotateYSpring,
@@ -89,11 +90,12 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
           style={{ transformStyle: 'preserve-3d' }}
           className="w-full h-full relative"
         >
-          {/* FRONT FACE (Active ONLY when NOT flipped) */}
+          {/* FRONT FACE */}
           <div 
             style={{
               pointerEvents: isFlipped ? 'none' : 'auto',
-              visibility: isFlipped ? 'hidden' : 'visible',
+              opacity: isFlipped ? 0 : 1,
+              transition: 'opacity 0.2s ease',
             }}
             className="card-face card-front"
           >
@@ -120,11 +122,12 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
             }} />
           </div>
 
-          {/* BACK FACE (Active ONLY when flipped) */}
+          {/* BACK FACE */}
           <div 
             style={{
               pointerEvents: isFlipped ? 'auto' : 'none',
-              visibility: isFlipped ? 'visible' : 'hidden',
+              opacity: isFlipped ? 1 : 0,
+              transition: 'opacity 0.2s ease',
             }}
             className="card-face card-back"
           >
@@ -138,7 +141,6 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
                 mixBlendMode: 'screen',
                 pointerEvents: 'none',
                 zIndex: 10,
-                transform: 'rotateY(180deg)',
                 opacity: isHovered ? 0.55 : 0.25,
                 backgroundPositionX: `${glareX.get()}%`,
                 backgroundPositionY: `${glareY.get()}%`,
