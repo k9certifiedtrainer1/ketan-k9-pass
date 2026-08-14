@@ -69,10 +69,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
   }, [x, y]);
 
   return (
-    <div className="card-wrapper" onClick={() => {
-      playCardFlipSound();
-      onToggleFlip();
-    }}>
+    <div className="card-wrapper">
       <motion.div
         ref={cardRef}
         onPointerEnter={() => setIsHovered(true)}
@@ -92,7 +89,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
           style={{ transformStyle: 'preserve-3d' }}
           className="w-full h-full relative"
         >
-          {/* FRONT FACE */}
+          {/* FRONT FACE (Click to Flip) */}
           <div className="card-face card-front">
             {/* Holographic Refraction Layer */}
             <motion.div
@@ -109,7 +106,10 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
                 backgroundPositionY: `${glareY.get()}%`,
               }}
             />
-            <CardFront />
+            <CardFront onFlip={() => {
+              playCardFlipSound();
+              onToggleFlip();
+            }} />
           </div>
 
           {/* BACK FACE */}
@@ -131,6 +131,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
               }}
             />
             <CardBack
+              onFlip={onToggleFlip}
               onOpenBooking={onOpenBooking}
               onOpenWallet={onOpenWallet}
             />

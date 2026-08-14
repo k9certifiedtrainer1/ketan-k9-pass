@@ -2,12 +2,21 @@ import React from 'react';
 import { TRAINER_DATA } from '../data/trainerData';
 import { NfcChip } from './NfcChip';
 
-export const CardFront: React.FC = () => {
+interface CardFrontProps {
+  onFlip?: () => void;
+}
+
+export const CardFront: React.FC<CardFrontProps> = ({ onFlip }) => {
   return (
-    <div className="w-full h-full flex flex-col justify-between select-none relative z-10 text-white">
-      
-      {/* 1. Top Status & Telemetry Bar */}
-      <div className="flex items-start justify-between w-full pt-0.5">
+    <div 
+      onClick={onFlip}
+      className="w-full h-full flex flex-col justify-between select-none relative z-10 text-white cursor-pointer"
+    >
+      {/* 1. Top Status & Telemetry Bar (Elevated 30px) */}
+      <div 
+        style={{ transform: 'translateZ(30px)' }}
+        className="flex items-start justify-between w-full pt-0.5"
+      >
         <div>
           <div className="flex items-center gap-2 font-mono text-[10px] sm:text-[11px] text-white/80 tracking-wider">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#22c55e] animate-pulse" />
@@ -21,9 +30,11 @@ export const CardFront: React.FC = () => {
         <NfcChip className="w-8 h-6 sm:w-9 sm:h-6.5 shrink-0" />
       </div>
 
-      {/* 2. Center Identity & Pure Typographic Hierarchy (Option A) */}
-      <div className="text-center flex flex-col items-center justify-center my-auto py-2">
-        
+      {/* 2. Center Identity (Elevated 45px for High-Status 3D Depth) */}
+      <div 
+        style={{ transform: 'translateZ(45px)' }}
+        className="text-center flex flex-col items-center justify-center my-auto py-2"
+      >
         {/* Commanding Large Editorial Serif Name */}
         <h1 
           className="font-serif italic text-[2.2rem] sm:text-[2.75rem] font-normal tracking-tight text-white leading-none drop-shadow-[0_4px_24px_rgba(255,255,255,0.25)] mb-3"
@@ -59,8 +70,11 @@ export const CardFront: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Bottom Vector Barcode & Tap Cue */}
-      <div className="flex flex-col justify-center items-center gap-1.5 pb-0.5">
+      {/* 3. Bottom Vector Barcode (Elevated 20px) */}
+      <div 
+        style={{ transform: 'translateZ(20px)' }}
+        className="flex flex-col justify-center items-center gap-1.5 pb-0.5"
+      >
         <svg className="w-3/4 h-6 text-white/35" viewBox="0 0 200 35" preserveAspectRatio="none">
           <rect x="0" y="0" width="4" height="35" fill="currentColor" />
           <rect x="8" y="0" width="2" height="35" fill="currentColor" />
