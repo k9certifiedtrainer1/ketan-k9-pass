@@ -10,201 +10,143 @@ interface CardBackProps {
   onOpenWallet: () => void;
 }
 
-export const CardBack: React.FC<CardBackProps> = ({
-  onFlip,
-  onOpenBooking,
-  onOpenWallet,
-}) => {
+export const CardBack: React.FC<CardBackProps> = ({ onFlip, onOpenBooking, onOpenWallet }) => {
   const [vcardSaved, setVcardSaved] = useState(false);
 
-  const handleSaveContact = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleSaveContact = () => {
     setTimeout(() => playSuccessChime(), 0);
     downloadVCard(TRAINER_DATA);
     setVcardSaved(true);
-
     try {
-      confetti({
-        particleCount: 35,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ['#10b981', '#38bdf8', '#ffffff'],
-        ticks: 150,
-        disableForReducedMotion: true,
-      });
-    } catch {
-      // Fallback
-    }
-
-    setTimeout(() => {
-      setVcardSaved(false);
-    }, 3000);
-  };
-
-  const handleWalletClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setTimeout(() => playButtonTapSound(), 0);
-    onOpenWallet();
-  };
-
-  const handleBookingClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setTimeout(() => playButtonTapSound(), 0);
-    onOpenBooking();
+      confetti({ particleCount: 35, spread: 60, origin: { y: 0.6 }, colors: ['#10b981', '#38bdf8', '#ffffff'], ticks: 150, disableForReducedMotion: true });
+    } catch { /* noop */ }
+    setTimeout(() => setVcardSaved(false), 3000);
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between items-center select-none relative z-20 text-white py-0.5">
-      
-      {/* 1. Header Bar with Flip Back Button & Telemetry Code */}
-      <div style={{ transform: 'translateZ(30px)' }} className="flex items-center justify-between w-full border-b border-white/10 pb-1.5 shrink-0">
+    // NO onClick on this container — zero flip risk on back face
+    <div className="w-full h-full flex flex-col select-none text-white" style={{ gap: '10px' }}>
+
+      {/* Header — clean centered like miteshshah.xyz */}
+      <div className="text-center pt-1">
+        <div className="font-mono text-[9px] sm:text-[11px] tracking-[0.18em] text-sky-400 uppercase font-semibold">
+          EXECUTIVE CONTACT INTERFACE
+        </div>
+        <div className="w-full h-px bg-white/10 mt-2" />
+      </div>
+
+      {/* Save Contact — plain button, no translateZ */}
+      <button
+        type="button"
+        onClick={handleSaveContact}
+        className="w-full flex items-center justify-center font-mono font-bold tracking-wider uppercase rounded-lg border transition-all active:scale-[0.97] cursor-pointer"
+        style={{
+          padding: '10px 12px',
+          fontSize: 'clamp(0.6rem, 2.2vw, 0.72rem)',
+          background: 'rgba(34,197,94,0.12)',
+          border: '1px solid #22c55e',
+          color: '#22c55e',
+        }}
+      >
+        {vcardSaved ? '[ CONTACT SAVED TO PHONE ]' : '[ SAVE CONTACT PASS (.VCF) ]'}
+      </button>
+
+      {/* Add to Wallet — plain button, no translateZ */}
+      <button
+        type="button"
+        onClick={() => { setTimeout(() => playButtonTapSound(), 0); onOpenWallet(); }}
+        className="w-full flex items-center justify-center font-mono font-bold tracking-wider uppercase rounded-lg border transition-all active:scale-[0.97] cursor-pointer"
+        style={{
+          padding: '10px 12px',
+          fontSize: 'clamp(0.6rem, 2.2vw, 0.72rem)',
+          background: 'rgba(56,189,248,0.12)',
+          border: '1px solid #38bdf8',
+          color: '#38bdf8',
+        }}
+      >
+        [ ADD TO APPLE / GOOGLE WALLET ]
+      </button>
+
+      {/* 2x2 Link Grid — pure native <a> tags, no translateZ */}
+      <div className="grid grid-cols-2" style={{ gap: '8px' }}>
+        <a
+          href={TRAINER_DATA.contact.whatsappDirectUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setTimeout(() => playButtonTapSound(), 0)}
+          className="flex flex-col items-start justify-center rounded-lg border border-white/15 transition-all active:scale-[0.97] cursor-pointer no-underline"
+          style={{ padding: '10px 12px', background: 'rgba(255,255,255,0.04)', textDecoration: 'none' }}
+        >
+          <span className="font-mono font-bold text-white uppercase" style={{ fontSize: 'clamp(0.6rem, 2vw, 0.7rem)', letterSpacing: '0.06em' }}>WHATSAPP</span>
+          <span className="font-mono text-emerald-400/80 mt-0.5" style={{ fontSize: 'clamp(0.55rem, 1.6vw, 0.62rem)' }}>+91 70965 07017</span>
+        </a>
+
+        <a
+          href={TRAINER_DATA.contact.telUrl}
+          onClick={() => setTimeout(() => playButtonTapSound(), 0)}
+          className="flex flex-col items-start justify-center rounded-lg border border-white/15 transition-all active:scale-[0.97] cursor-pointer no-underline"
+          style={{ padding: '10px 12px', background: 'rgba(255,255,255,0.04)', textDecoration: 'none' }}
+        >
+          <span className="font-mono font-bold text-white uppercase" style={{ fontSize: 'clamp(0.6rem, 2vw, 0.7rem)', letterSpacing: '0.06em' }}>CALL DIRECT</span>
+          <span className="font-mono text-slate-400 mt-0.5" style={{ fontSize: 'clamp(0.55rem, 1.6vw, 0.62rem)' }}>Priority Line</span>
+        </a>
+
+        <a
+          href={TRAINER_DATA.contact.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setTimeout(() => playButtonTapSound(), 0)}
+          className="flex flex-col items-start justify-center rounded-lg border border-white/15 transition-all active:scale-[0.97] cursor-pointer no-underline"
+          style={{ padding: '10px 12px', background: 'rgba(255,255,255,0.04)', textDecoration: 'none' }}
+        >
+          <span className="font-mono font-bold text-white uppercase" style={{ fontSize: 'clamp(0.6rem, 2vw, 0.7rem)', letterSpacing: '0.06em' }}>INSTAGRAM</span>
+          <span className="font-mono text-pink-400/80 mt-0.5" style={{ fontSize: 'clamp(0.55rem, 1.6vw, 0.62rem)' }}>@k9certifiedtrainer</span>
+        </a>
+
+        <a
+          href={TRAINER_DATA.partnership.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setTimeout(() => playButtonTapSound(), 0)}
+          className="flex flex-col items-start justify-center rounded-lg border border-white/15 transition-all active:scale-[0.97] cursor-pointer no-underline"
+          style={{ padding: '10px 12px', background: 'rgba(255,255,255,0.04)', textDecoration: 'none' }}
+        >
+          <span className="font-mono font-bold text-white uppercase" style={{ fontSize: 'clamp(0.6rem, 2vw, 0.7rem)', letterSpacing: '0.06em' }}>THE BARK UNIV</span>
+          <span className="font-mono text-amber-400/80 mt-0.5" style={{ fontSize: 'clamp(0.55rem, 1.6vw, 0.62rem)' }}>Official Partner</span>
+        </a>
+      </div>
+
+      {/* Inquire Training — plain button, no translateZ */}
+      <button
+        type="button"
+        onClick={() => { setTimeout(() => playButtonTapSound(), 0); onOpenBooking(); }}
+        className="w-full flex items-center justify-between rounded-lg border border-emerald-500/35 transition-all active:scale-[0.97] cursor-pointer"
+        style={{
+          padding: '10px 14px',
+          background: 'rgba(16,185,129,0.08)',
+        }}
+      >
+        <span className="font-mono font-bold text-emerald-300 uppercase text-left" style={{ fontSize: 'clamp(0.58rem, 2vw, 0.68rem)', letterSpacing: '0.06em' }}>
+          [ INQUIRE TRAINING // BOOK CONSULTATION ]
+        </span>
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0 ml-2" />
+      </button>
+
+      {/* Flip Back — explicit flip button */}
+      <div className="flex items-center justify-between pt-1 border-t border-white/10">
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            playCardFlipSound();
-            onFlip();
-          }}
-          className="flex items-center gap-1 font-mono text-[9px] sm:text-[10px] tracking-wider text-slate-300 hover:text-emerald-400 bg-white/5 hover:bg-white/10 border border-white/10 px-2 py-0.5 rounded-lg transition-all active:scale-95 cursor-pointer"
+          onClick={() => { playCardFlipSound(); onFlip(); }}
+          className="font-mono text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 active:scale-95"
+          style={{ fontSize: 'clamp(0.55rem, 1.8vw, 0.63rem)', letterSpacing: '0.1em', background: 'none', border: 'none', padding: 0 }}
         >
-          <span>[ ← FLIP TO FRONT ]</span>
+          ← FLIP TO FRONT
         </button>
-
-        <div className="font-mono text-[8.5px] sm:text-[9.5px] tracking-widest text-sky-400 uppercase font-semibold">
-          SECURITY: KP-70965 // K9
+        <div className="font-mono text-slate-500 uppercase text-right" style={{ fontSize: 'clamp(0.48rem, 1.5vw, 0.56rem)', letterSpacing: '0.1em' }}>
+          SECURE // THEBARKUNIV.COM
         </div>
       </div>
 
-      {/* 2. Christopher Nolan High-Density Boxy Action Deck (Zero Empty Dead Space) */}
-      <div className="w-full flex flex-col gap-2 my-auto py-1">
-        
-        {/* Tier 1 Primary: Save Contact .VCF Box */}
-        <button
-          type="button"
-          onClick={handleSaveContact}
-          className="w-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 rounded-xl p-2.5 sm:p-3 text-left transition-all active:scale-[0.98] cursor-pointer shadow-[0_4px_20px_rgba(16,185,129,0.15)] group"
-        >
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[10px] sm:text-[11px] font-bold tracking-wider text-emerald-400 uppercase group-hover:text-emerald-300">
-              {vcardSaved ? '[ CONTACT SAVED TO PHONE ]' : '[ 01 ] SAVE CONTACT PASS (.VCF)'}
-            </span>
-            <span className="font-mono text-[9px] text-emerald-400/70 border border-emerald-500/30 px-1.5 py-0.5 rounded bg-emerald-950/40">
-              1-TAP
-            </span>
-          </div>
-          <p className="font-mono text-[8px] sm:text-[9px] text-slate-400 mt-0.5 tracking-wide">
-            Import full CPDT-KA credentials directly into phonebook
-          </p>
-        </button>
-
-        {/* Tier 1 Secondary: Digital Wallet Box */}
-        <button
-          type="button"
-          onClick={handleWalletClick}
-          className="w-full bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/40 rounded-xl p-2.5 sm:p-3 text-left transition-all active:scale-[0.98] cursor-pointer shadow-[0_4px_20px_rgba(56,189,248,0.12)] group"
-        >
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[10px] sm:text-[11px] font-bold tracking-wider text-sky-400 uppercase group-hover:text-sky-300">
-              [ 02 ] ADD TO APPLE & GOOGLE WALLET
-            </span>
-            <span className="font-mono text-[9px] text-sky-400/70 border border-sky-500/30 px-1.5 py-0.5 rounded bg-sky-950/40">
-              PASS
-            </span>
-          </div>
-          <p className="font-mono text-[8px] sm:text-[9px] text-slate-400 mt-0.5 tracking-wide">
-            Access digital pass & verified trainer credentials
-          </p>
-        </button>
-
-        {/* Tier 2: 2x2 Tactical Communication Matrix */}
-        <div className="grid grid-cols-2 gap-2">
-          {/* WhatsApp Direct */}
-          <a
-            href={TRAINER_DATA.contact.whatsappDirectUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setTimeout(() => playButtonTapSound(), 0)}
-            className="bg-white/[0.04] hover:bg-white/10 border border-white/15 hover:border-emerald-400/50 rounded-xl p-2 sm:p-2.5 transition-all text-left group active:scale-[0.98] cursor-pointer"
-          >
-            <div className="font-mono text-[9.5px] sm:text-[10.5px] font-bold text-white group-hover:text-emerald-400 tracking-wider">
-              [ WHATSAPP ]
-            </div>
-            <div className="font-mono text-[8px] sm:text-[8.5px] text-emerald-400/80 mt-0.5">
-              +91 70965 07017
-            </div>
-          </a>
-
-          {/* Direct Phone Call */}
-          <a
-            href={TRAINER_DATA.contact.telUrl}
-            onClick={() => setTimeout(() => playButtonTapSound(), 0)}
-            className="bg-white/[0.04] hover:bg-white/10 border border-white/15 hover:border-sky-400/50 rounded-xl p-2 sm:p-2.5 transition-all text-left group active:scale-[0.98] cursor-pointer"
-          >
-            <div className="font-mono text-[9.5px] sm:text-[10.5px] font-bold text-white group-hover:text-sky-400 tracking-wider">
-              [ CALL DIRECT ]
-            </div>
-            <div className="font-mono text-[8px] sm:text-[8.5px] text-slate-400 mt-0.5">
-              Priority Phone Line
-            </div>
-          </a>
-
-          {/* Instagram Profile */}
-          <a
-            href={TRAINER_DATA.contact.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setTimeout(() => playButtonTapSound(), 0)}
-            className="bg-white/[0.04] hover:bg-white/10 border border-white/15 hover:border-pink-400/50 rounded-xl p-2 sm:p-2.5 transition-all text-left group active:scale-[0.98] cursor-pointer"
-          >
-            <div className="font-mono text-[9.5px] sm:text-[10.5px] font-bold text-white group-hover:text-pink-400 tracking-wider">
-              [ INSTAGRAM ]
-            </div>
-            <div className="font-mono text-[8px] sm:text-[8.5px] text-slate-400 mt-0.5">
-              {TRAINER_DATA.contact.instagramHandle}
-            </div>
-          </a>
-
-          {/* Partner: The Bark University */}
-          <a
-            href={TRAINER_DATA.partnership.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setTimeout(() => playButtonTapSound(), 0)}
-            className="bg-white/[0.04] hover:bg-white/10 border border-white/15 hover:border-amber-400/50 rounded-xl p-2 sm:p-2.5 transition-all text-left group active:scale-[0.98] cursor-pointer"
-          >
-            <div className="font-mono text-[9.5px] sm:text-[10.5px] font-bold text-white group-hover:text-amber-400 tracking-wider">
-              [ THE BARK UNIV ]
-            </div>
-            <div className="font-mono text-[8px] sm:text-[8.5px] text-slate-400 mt-0.5">
-              Official Partner Link
-            </div>
-          </a>
-        </div>
-
-        {/* Tier 3: Inquire Consultation Box */}
-        <button
-          type="button"
-          onClick={handleBookingClick}
-          className="w-full bg-gradient-to-r from-emerald-950/40 to-teal-950/30 hover:from-emerald-900/50 hover:to-teal-900/40 border border-emerald-500/40 rounded-xl p-2 sm:p-2.5 text-left transition-all active:scale-[0.98] cursor-pointer group"
-        >
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[9.5px] sm:text-[10.5px] font-bold tracking-wider text-emerald-300 uppercase group-hover:text-emerald-200">
-              [ BOOK TRAINING CONSULTATION // VIP INQUIRY ]
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          </div>
-          <p className="font-mono text-[8px] sm:text-[8.5px] text-slate-400 mt-0.5 tracking-wide">
-            Behavior Fix · Aggression Rehab · Guard Command
-          </p>
-        </button>
-      </div>
-
-      {/* 3. Bottom Security Subtitle Stamp */}
-      <div style={{ transform: 'translateZ(25px)' }} className="text-center w-full pt-1 shrink-0">
-        <div className="font-mono text-[7.5px] sm:text-[8.5px] tracking-widest text-slate-400 uppercase">
-          NFC UID: KP-8849-CPDTKA // THEBARKUNIVERSITY.COM
-        </div>
-      </div>
     </div>
   );
 };
