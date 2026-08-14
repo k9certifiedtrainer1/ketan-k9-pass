@@ -132,20 +132,37 @@ export const CardBack: React.FC<CardBackProps> = ({ onFlip, onOpenBooking, onOpe
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0 ml-2" />
       </button>
 
-      {/* Flip Back — explicit flip button */}
-      <div className="flex items-center justify-between pt-1 border-t border-white/10">
-        <button
-          type="button"
-          onClick={() => { playCardFlipSound(); onFlip(); }}
-          className="font-mono text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 active:scale-95"
-          style={{ fontSize: 'clamp(0.55rem, 1.8vw, 0.63rem)', letterSpacing: '0.1em', background: 'none', border: 'none', padding: 0 }}
-        >
-          ← FLIP TO FRONT
-        </button>
-        <div className="font-mono text-slate-500 uppercase text-right" style={{ fontSize: 'clamp(0.48rem, 1.5vw, 0.56rem)', letterSpacing: '0.1em' }}>
-          SECURE // THEBARKUNIV.COM
+      {/* Flip Back — FULL WIDTH tap zone, impossible to miss */}
+      <button
+        type="button"
+        onClick={() => { playCardFlipSound(); onFlip(); }}
+        className="w-full flex items-center justify-between rounded-lg border border-white/10 hover:border-white/25 hover:bg-white/5 transition-all active:scale-[0.98] cursor-pointer group"
+        style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.02)', marginTop: '2px' }}
+      >
+        {/* Left: Arrow + Label */}
+        <div className="flex items-center gap-2">
+          <span
+            className="font-mono text-slate-400 group-hover:text-white transition-colors"
+            style={{ fontSize: '0.85rem' }}
+          >
+            ←
+          </span>
+          <span
+            className="font-mono text-slate-400 group-hover:text-white transition-colors uppercase tracking-widest"
+            style={{ fontSize: 'clamp(0.55rem, 1.8vw, 0.63rem)' }}
+          >
+            FLIP TO FRONT
+          </span>
         </div>
-      </div>
+
+        {/* Right: Secure stamp */}
+        <span
+          className="font-mono text-slate-600 uppercase"
+          style={{ fontSize: 'clamp(0.45rem, 1.4vw, 0.54rem)', letterSpacing: '0.1em' }}
+        >
+          SECURE // THEBARKUNIV.COM
+        </span>
+      </button>
 
     </div>
   );
