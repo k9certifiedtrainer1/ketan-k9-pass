@@ -20,18 +20,18 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Motion Values for 3D Parallax Tilt
+  // Motion Values for 3D Parallax Tilt (Dampened luxury titanium feel)
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const springConfig = { damping: 22, stiffness: 220, mass: 0.5 };
-  const rotateXSpring = useSpring(useTransform(y, [-0.5, 0.5], [14, -14]), springConfig);
-  const rotateYSpring = useSpring(useTransform(x, [-0.5, 0.5], [-16, 16]), springConfig);
+  const springConfig = { damping: 26, stiffness: 180, mass: 0.6 };
+  const rotateXSpring = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), springConfig);
+  const rotateYSpring = useSpring(useTransform(x, [-0.5, 0.5], [-14, 14]), springConfig);
 
   const glareX = useSpring(useTransform(x, [-0.5, 0.5], [0, 100]), springConfig);
   const glareY = useSpring(useTransform(y, [-0.5, 0.5], [0, 100]), springConfig);
 
-  // Desktop Mouse Tilt ONLY (Never intercepts mobile touchscreen taps)
+  // Desktop Mouse Movement (Never intercepts touchscreen taps)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -48,7 +48,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     y.set(0);
   };
 
-  // Mobile Hardware Gyroscope (Smooth Parallax Tilt without Touch Drag Conflicts)
+  // Mobile Hardware Gyroscope (Smooth Parallax Tilt without Touch Conflicts)
   useEffect(() => {
     const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
       if (e.gamma !== null && e.beta !== null) {
@@ -69,25 +69,8 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     };
   }, [x, y]);
 
-  // Card Flip Guard: ONLY flips when clicking outside interactive buttons and links
-  const handleCardClick = (e: React.MouseEvent) => {
-    const target = e.target as HTMLElement;
-    if (
-      target.closest('a') || 
-      target.closest('button') || 
-      target.closest('input') || 
-      target.closest('select') || 
-      target.closest('textarea')
-    ) {
-      return;
-    }
-
-    playCardFlipSound();
-    onToggleFlip();
-  };
-
   return (
-    <div className="card-wrapper" onClick={handleCardClick}>
+    <div className="card-wrapper">
       <motion.div
         ref={cardRef}
         onMouseEnter={() => setIsHovered(true)}
@@ -107,12 +90,18 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
           style={{ transformStyle: 'preserve-3d' }}
           className="w-full h-full relative"
         >
-          {/* FRONT FACE (Disabled when flipped) */}
+          {/* FRONT FACE (Click to Flip) */}
           <div 
+            onClick={() => {
+              if (!isFlipped) {
+                playCardFlipSound();
+                onToggleFlip();
+              }
+            }}
             style={{
               pointerEvents: isFlipped ? 'none' : 'auto',
             }}
-            className="card-face card-front"
+            className="card-face card-front cursor-pointer"
           >
             {/* Holographic Refraction Layer */}
             <motion.div
@@ -132,7 +121,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
             <CardFront />
           </div>
 
-          {/* BACK FACE (Active when flipped) */}
+          {/* BACK FACE (Zero Global Flip Listener - Pure Dedicated Actions) */}
           <div 
             style={{
               pointerEvents: isFlipped ? 'auto' : 'none',
