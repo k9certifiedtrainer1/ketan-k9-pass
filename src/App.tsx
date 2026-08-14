@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { DigitalCard } from './components/DigitalCard';
+import { CustomCursor } from './components/CustomCursor';
 import { 
   ConsultationModal, 
   WalletModal, 
@@ -24,13 +25,16 @@ export function App() {
 
   return (
     <div className="card-page-container">
-      {/* Ambient Refraction Glows */}
+      {/* Interactive Magnetic Glowing Touch / Mouse Cursor */}
+      <CustomCursor />
+
+      {/* Ambient Refraction Glows (Space Black x Emerald Jade x Deep Cyan) */}
       <div className="ambient-orb orb-primary" />
       <div className="ambient-orb orb-secondary" />
       <div className="ambient-orb orb-tertiary" />
 
       {/* ROW 1: TOP SYSTEM BAR (Clean Non-Overlapping Header) */}
-      <header className="w-full flex items-center justify-between z-30 shrink-0 max-w-lg mx-auto">
+      <header className="w-full flex items-center justify-between z-30 shrink-0 max-w-md mx-auto">
         {/* Left Status Pill */}
         <div className="font-mono text-[9px] sm:text-[10px] tracking-widest text-emerald-400/90 uppercase px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
           <div className="flex items-center gap-1.5">
