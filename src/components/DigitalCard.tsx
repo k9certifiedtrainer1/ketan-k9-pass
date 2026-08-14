@@ -31,7 +31,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
   const glareX = useSpring(useTransform(x, [-0.5, 0.5], [0, 100]), springConfig);
   const glareY = useSpring(useTransform(y, [-0.5, 0.5], [0, 100]), springConfig);
 
-  // Desktop Mouse Tilt ONLY (Never intercepts touchscreen gestures)
+  // Desktop Mouse Movement (Parallax Tilt)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -48,7 +48,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     y.set(0);
   };
 
-  // Mobile Hardware Gyroscope (Smooth Parallax without Touch Interference)
+  // Mobile Hardware Gyroscope Tilt
   useEffect(() => {
     const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
       if (e.gamma !== null && e.beta !== null) {
@@ -69,8 +69,26 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     };
   }, [x, y]);
 
+  // Exact Card Flip Handler from miteshshah.xyz/card
+  const handleCardClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    // If the click/tap is on an anchor link or button, DO NOT FLIP (let the link/action fire natively)
+    if (
+      target.closest('a') || 
+      target.closest('button') || 
+      target.closest('input') || 
+      target.closest('select') || 
+      target.closest('textarea')
+    ) {
+      return;
+    }
+
+    playCardFlipSound();
+    onToggleFlip();
+  };
+
   return (
-    <div className="card-wrapper">
+    <div className="card-wrapper" onClick={handleCardClick}>
       <motion.div
         ref={cardRef}
         onMouseEnter={() => setIsHovered(true)}
@@ -81,7 +99,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
           rotateY: rotateYSpring,
           transformStyle: 'preserve-3d',
         }}
-        className="w-full h-full relative preserve-3d"
+        className="holographic-card"
       >
         {/* 3D Flipping Motion Container */}
         <motion.div
@@ -91,20 +109,13 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
           className="w-full h-full relative"
         >
           {/* FRONT FACE */}
-          <div 
-            style={{
-              pointerEvents: isFlipped ? 'none' : 'auto',
-              opacity: isFlipped ? 0 : 1,
-              transition: 'opacity 0.2s ease',
-            }}
-            className="card-face card-front"
-          >
+          <div className="card-face card-front">
             {/* Holographic Refraction Layer */}
             <motion.div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(105deg, transparent 20%, rgba(56, 189, 248, 0.2) 25%, rgba(255, 255, 255, 0.22) 27%, transparent 30%)',
+                background: 'linear-gradient(105deg, transparent 20%, rgba(56, 189, 248, 0.2) 25%, rgba(255, 255, 255, 0.2) 27%, transparent 30%)',
                 backgroundSize: '200% 200%',
                 mixBlendMode: 'screen',
                 pointerEvents: 'none',
@@ -114,40 +125,28 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
                 backgroundPositionY: `${glareY.get()}%`,
               }}
             />
-            <CardFront onFlip={() => {
-              if (!isFlipped) {
-                playCardFlipSound();
-                onToggleFlip();
-              }
-            }} />
+            <CardFront />
           </div>
 
           {/* BACK FACE */}
-          <div 
-            style={{
-              pointerEvents: isFlipped ? 'auto' : 'none',
-              opacity: isFlipped ? 1 : 0,
-              transition: 'opacity 0.2s ease',
-            }}
-            className="card-face card-back"
-          >
+          <div className="card-face card-back">
             {/* Holographic Refraction Layer */}
             <motion.div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(105deg, transparent 20%, rgba(56, 189, 248, 0.2) 25%, rgba(255, 255, 255, 0.22) 27%, transparent 30%)',
+                background: 'linear-gradient(105deg, transparent 20%, rgba(56, 189, 248, 0.2) 25%, rgba(255, 255, 255, 0.2) 27%, transparent 30%)',
                 backgroundSize: '200% 200%',
                 mixBlendMode: 'screen',
                 pointerEvents: 'none',
                 zIndex: 10,
+                transform: 'rotateY(180deg)',
                 opacity: isHovered ? 0.55 : 0.25,
                 backgroundPositionX: `${glareX.get()}%`,
                 backgroundPositionY: `${glareY.get()}%`,
               }}
             />
             <CardBack
-              onFlip={onToggleFlip}
               onOpenBooking={onOpenBooking}
               onOpenWallet={onOpenWallet}
             />

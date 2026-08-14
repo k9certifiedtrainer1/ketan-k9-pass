@@ -2,17 +2,10 @@ import React from 'react';
 import { TRAINER_DATA } from '../data/trainerData';
 import { NfcChip } from './NfcChip';
 
-interface CardFrontProps {
-  onFlip?: () => void;
-}
-
-export const CardFront: React.FC<CardFrontProps> = ({ onFlip }) => {
+export const CardFront: React.FC = () => {
   return (
-    <div 
-      onClick={onFlip}
-      className="w-full h-full flex flex-col justify-between select-none relative z-10 text-white cursor-pointer"
-    >
-      {/* 1. Top Status & Telemetry Bar (Elevated 30px) */}
+    <div className="w-full h-full flex flex-col justify-between select-none relative z-10 text-white">
+      {/* 1. Top Status & Telemetry Bar */}
       <div 
         style={{ transform: 'translateZ(30px)' }}
         className="flex items-start justify-between w-full pt-0.5"
@@ -30,9 +23,9 @@ export const CardFront: React.FC<CardFrontProps> = ({ onFlip }) => {
         <NfcChip className="w-8 h-6 sm:w-9 sm:h-6.5 shrink-0" />
       </div>
 
-      {/* 2. Center Identity (Elevated 45px for High-Status 3D Depth) */}
+      {/* 2. Center Identity (Elevated 50px for High-Status 3D Depth) */}
       <div 
-        style={{ transform: 'translateZ(45px)' }}
+        style={{ transform: 'translateZ(50px)' }}
         className="text-center flex flex-col items-center justify-center my-auto py-2"
       >
         {/* Commanding Large Editorial Serif Name */}
