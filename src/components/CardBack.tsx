@@ -25,7 +25,7 @@ export const CardBack: React.FC<CardBackProps> = ({ onFlip, onOpenBooking, onOpe
 
   return (
     // NO onClick on this container — zero flip risk on back face
-    <div className="w-full h-full flex flex-col select-none text-white" style={{ gap: '10px' }}>
+    <div className="w-full h-full flex flex-col justify-between select-none text-white">
 
       {/* Header — clean centered like miteshshah.xyz */}
       <div className="text-center pt-1">

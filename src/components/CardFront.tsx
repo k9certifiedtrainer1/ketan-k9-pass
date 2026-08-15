@@ -27,11 +27,10 @@ export const CardFront: React.FC = () => {
         <div className="relative mb-3">
           <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
             <img
-              src={TRAINER_DATA.avatarUrl}
+              src="./trainer_avatar.jpg"
               alt={TRAINER_DATA.name}
               className="w-full h-full object-cover"
               onError={(e) => {
-                // Fallback to initials if image fails
                 (e.target as HTMLImageElement).style.display = 'none';
               }}
             />
