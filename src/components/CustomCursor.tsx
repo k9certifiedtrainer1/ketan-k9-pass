@@ -13,7 +13,7 @@ export const CustomCursor: React.FC = () => {
   const smoothY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    // Only active on non-touch desktop pointer devices (avoids mobile touch re-rendering)
+    // Only active on non-touch desktop pointer devices
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouch) return;
 
@@ -48,9 +48,9 @@ export const CustomCursor: React.FC = () => {
         translateY: '-50%',
       }}
     >
-      {/* Outer Emerald Halo */}
-      <div className="w-8 h-8 rounded-full border border-emerald-400/80 bg-emerald-500/10 shadow-[0_0_16px_rgba(16,185,129,0.45)] flex items-center justify-center">
-        {/* Inner Precision Dot */}
+      {/* Outer Tactical Gold Halo */}
+      <div className="w-7 h-7 rounded-full border border-[#d4af37]/75 bg-[#d4af37]/10 shadow-[0_0_16px_rgba(212,175,55,0.35)] flex items-center justify-center">
+        {/* Inner Precision White Dot */}
         <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" />
       </div>
     </motion.div>

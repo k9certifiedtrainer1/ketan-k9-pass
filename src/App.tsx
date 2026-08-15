@@ -28,18 +28,18 @@ export function App() {
       {/* Interactive Magnetic Glowing Touch / Mouse Cursor */}
       <CustomCursor />
 
-      {/* Ambient Refraction Glows (Space Black x Emerald Jade x Deep Cyan) */}
+      {/* Ambient Refraction Glows (Champagne Gold & Deep Obsidian Sheen) */}
       <div className="ambient-orb orb-primary" />
       <div className="ambient-orb orb-secondary" />
       <div className="ambient-orb orb-tertiary" />
 
-      {/* ROW 1: TOP SYSTEM BAR (Clean Non-Overlapping Header) */}
+      {/* ROW 1: TOP SYSTEM BAR (Clean Non-Overlapping Luxury Header) */}
       <header className="w-full flex items-center justify-between z-30 shrink-0 max-w-md mx-auto">
         {/* Left Status Pill */}
-        <div className="font-mono text-[9px] sm:text-[10px] tracking-widest text-emerald-400/90 uppercase px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+        <div className="font-mono text-[9px] sm:text-[10px] tracking-widest text-[#d4af37] uppercase px-3 py-1 rounded-full bg-white/[0.04] border border-[#d4af37]/30 backdrop-blur-md shadow-[0_0_12px_rgba(212,175,55,0.08)]">
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>[ K9 EXECUTIVE PASS ]</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_#d4af37]" />
+            <span className="font-semibold tracking-[0.14em]">K9 EXECUTIVE PASS</span>
           </div>
         </div>
 
@@ -51,9 +51,9 @@ export function App() {
               setTimeout(() => playButtonTapSound(), 0);
               setQrOpen(true);
             }}
-            className="font-mono text-[9px] sm:text-[10px] tracking-wider text-white/80 hover:text-white uppercase px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
+            className="font-mono text-[9px] sm:text-[10px] tracking-wider text-white/80 hover:text-white uppercase px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/12 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
           >
-            [ QR CODE ]
+            QR CODE
           </button>
 
           <button
@@ -62,14 +62,14 @@ export function App() {
               setTimeout(() => playButtonTapSound(), 0);
               setShareOpen(true);
             }}
-            className="font-mono text-[9px] sm:text-[10px] tracking-wider text-white/80 hover:text-white uppercase px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
+            className="font-mono text-[9px] sm:text-[10px] tracking-wider text-white/80 hover:text-white uppercase px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/12 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
           >
-            [ SHARE ]
+            SHARE
           </button>
         </div>
       </header>
 
-      {/* ROW 2: CENTERED 3D HOLOGRAPHIC CARD */}
+      {/* ROW 2: CENTERED 3D HOLOGRAPHIC LUXURY CARD */}
       <main className="w-full flex items-center justify-center my-auto relative z-10">
         <DigitalCard
           isFlipped={isFlipped}
@@ -98,7 +98,7 @@ export function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setTimeout(() => playButtonTapSound(), 0)}
-                className="mobile-nav-link text-emerald-400 hover:text-emerald-300"
+                className="mobile-nav-link text-white hover:text-[#d4af37]"
               >
                 WHATSAPP
               </a>
@@ -129,10 +129,10 @@ export function App() {
               <button
                 type="button"
                 onClick={handleToggleFlip}
-                className="mobile-nav-link text-slate-300 hover:text-white flex items-center gap-1 cursor-pointer"
+                className="mobile-nav-link text-white/90 hover:text-white flex items-center gap-1.5 cursor-pointer"
               >
                 <span>FLIP CARD</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#22c55e]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_#d4af37]" />
               </button>
             </li>
           </ul>

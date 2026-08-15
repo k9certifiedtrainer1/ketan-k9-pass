@@ -38,7 +38,7 @@ export const TRAINER_DATA: TrainerProfile = {
   credentials: "US CERTIFIED DOG TRAINER & BEHAVIOURIST",
   role: "Canine Behavior Specialist & Master Trainer",
   motto: "Creating A Lifetime Bond",
-  avatarUrl: "/trainer_avatar.jpg",
+  avatarUrl: "./trainer_avatar.jpg",
   titles: [
     "US Certified Dog Trainer & Behaviourist",
     "Canine Behavior Specialist",
@@ -69,8 +69,8 @@ export const TRAINER_DATA: TrainerProfile = {
     websiteUrl: "https://thebarkuniversity.com/",
   },
   telemetry: {
-    systemStatus: "SYS: OPTIMAL // NFC ACTIVE",
-    clearanceLevel: "CLEARANCE: MASTER-K9 · ID: KP-70965",
-    serialNumber: "KP-CPDTKA-70965",
+    systemStatus: "NFC DIGITAL PASS // ACTIVE",
+    clearanceLevel: "MASTER TRAINER · ID: KP-70965",
+    serialNumber: "KP-K9-70965",
   },
 };

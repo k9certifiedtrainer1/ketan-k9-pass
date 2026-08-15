@@ -20,14 +20,14 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Dampened spring — heavy titanium feel, not jerky
+  // Heavy titanium dampened spring
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springConfig = { damping: 26, stiffness: 180, mass: 0.6 };
   const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), springConfig);
   const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-14, 14]), springConfig);
 
-  // Desktop mouse tilt — never fires on mobile
+  // Desktop mouse tilt
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -40,7 +40,7 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
     y.set(0);
   };
 
-  // Mobile gyroscope tilt — never touches tap events
+  // Mobile gyroscope tilt
   useEffect(() => {
     const onOrientation = (e: DeviceOrientationEvent) => {
       if (e.gamma == null || e.beta == null) return;
@@ -67,7 +67,6 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
         className="w-full h-full relative"
       >
         {/* ── FRONT FACE ─────────────────────────────────────────────────────── */}
-        {/* Clicking the FRONT flips to back. No other flip triggers exist. */}
         <div
           className="card-face card-front"
           style={{ pointerEvents: isFlipped ? 'none' : 'auto' }}
@@ -76,11 +75,11 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
             onToggleFlip();
           }}
         >
-          {/* Subtle specular shimmer — pointer-events:none so it never blocks taps */}
+          {/* Subtle Champagne Gold Specular Shimmer */}
           <div
-            className="absolute inset-0 pointer-events-none z-10 rounded-[22px]"
+            className="absolute inset-0 pointer-events-none z-10 rounded-[24px]"
             style={{
-              background: 'linear-gradient(105deg, transparent 20%, rgba(56,189,248,0.18) 25%, rgba(255,255,255,0.18) 27%, transparent 30%)',
+              background: 'linear-gradient(105deg, transparent 20%, rgba(212,175,55,0.18) 25%, rgba(255,255,255,0.22) 27%, transparent 30%)',
               opacity: isHovered ? 0.65 : 0.3,
               mixBlendMode: 'screen',
             }}
@@ -89,16 +88,15 @@ export const DigitalCard: React.FC<DigitalCardProps> = ({
         </div>
 
         {/* ── BACK FACE ──────────────────────────────────────────────────────── */}
-        {/* ZERO onClick on this container. All actions are inside CardBack itself. */}
         <div
           className="card-face card-back"
           style={{ pointerEvents: isFlipped ? 'auto' : 'none' }}
         >
-          {/* Subtle specular shimmer — pointer-events:none */}
+          {/* Subtle Champagne Gold Specular Shimmer */}
           <div
-            className="absolute inset-0 pointer-events-none z-10 rounded-[22px]"
+            className="absolute inset-0 pointer-events-none z-10 rounded-[24px]"
             style={{
-              background: 'linear-gradient(105deg, transparent 20%, rgba(56,189,248,0.18) 25%, rgba(255,255,255,0.18) 27%, transparent 30%)',
+              background: 'linear-gradient(105deg, transparent 20%, rgba(212,175,55,0.18) 25%, rgba(255,255,255,0.22) 27%, transparent 30%)',
               opacity: isHovered ? 0.55 : 0.2,
               mixBlendMode: 'screen',
               transform: 'rotateY(180deg)',
