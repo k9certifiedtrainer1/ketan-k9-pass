@@ -59,7 +59,7 @@ export const CardFront: React.FC = () => {
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono tracking-widest uppercase font-semibold mb-3 shadow-[0_0_15px_rgba(16,185,129,0.15)]"
           style={{ fontSize: 'clamp(0.6rem, 2vw, 0.7rem)' }}>
           <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
-          [ CPDT-KA CERTIFIED TRAINER ]
+          [ US CERTIFIED DOG TRAINER & BEHAVIOURIST ]
         </div>
 
         {/* Specialties */}
@@ -70,7 +70,7 @@ export const CardFront: React.FC = () => {
           </div>
           <div className="font-mono tracking-wider text-white/70 uppercase leading-snug text-center"
             style={{ fontSize: 'clamp(0.58rem, 2vw, 0.67rem)' }}>
-            Executive Protection &amp; Advanced K9 Command
+            Executive &amp; Advanced K9 Command
           </div>
 
           {/* Divider */}

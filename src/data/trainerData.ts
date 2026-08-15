@@ -35,14 +35,14 @@ export interface TrainerProfile {
 
 export const TRAINER_DATA: TrainerProfile = {
   name: "Ketan Panchal",
-  credentials: "CPDT-KA CERTIFIED",
+  credentials: "US CERTIFIED DOG TRAINER & BEHAVIOURIST",
   role: "Canine Behavior Specialist & Master Trainer",
   motto: "Creating A Lifetime Bond",
   avatarUrl: "/trainer_avatar.jpg",
   titles: [
-    "Certified Professional Dog Trainer (CPDT-KA)",
+    "US Certified Dog Trainer & Behaviourist",
     "Canine Behavior Specialist",
-    "Executive Protection & K9 Command",
+    "Executive & Advanced K9 Command",
     "Advanced Off-Leash Obedience",
     "Severe Aggression & Fear Rehabilitation",
     "Partner @ The Bark University",
