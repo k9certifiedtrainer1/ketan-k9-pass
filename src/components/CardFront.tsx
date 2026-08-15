@@ -49,13 +49,13 @@ export const CardFront: React.FC = () => {
           {TRAINER_DATA.name}
         </h1>
 
-        {/* US Certified Dog Trainer Badge Pill — Pure Tactical Gold */}
+        {/* US Certified Dog Trainer Badge Pill — Pure Tactical Gold, Single Line */}
         <div 
-          className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/40 text-[#d4af37] font-mono tracking-widest uppercase font-semibold mb-3 shadow-[0_0_15px_rgba(212,175,55,0.12)]"
-          style={{ fontSize: 'clamp(0.6rem, 2vw, 0.7rem)', letterSpacing: '0.14em' }}
+          className="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/40 text-[#d4af37] font-mono uppercase font-semibold mb-3 shadow-[0_0_15px_rgba(212,175,55,0.12)] whitespace-nowrap max-w-full"
+          style={{ fontSize: 'clamp(0.52rem, 1.75vw, 0.64rem)', letterSpacing: '0.1em' }}
         >
-          <span className="w-1 h-1 rounded-full bg-amber-400 animate-pulse" />
-          {TRAINER_DATA.credentials}
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0" />
+          <span className="leading-none">{TRAINER_DATA.credentials}</span>
         </div>
 
         {/* Specialties & Authority */}
